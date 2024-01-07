@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Datos Usuario</title>
+</head>
+<body>
+    <ul>
+        <li><a href="/cookiesSesion/datosUsuario">Paso 1</a></li>
+        <li><a href="/cookiesSesion/datosPersonales">Paso 2</a></li>
+        <li><a href="/cookiesSesion/datosProfesionales">Paso 3</a></li>
+        <li><a href="/cookiesSesion/finalDatos">Paso 4</a></li>
+    </ul>
+    <form action="entraDatosUsuario" method="post" th:object="${usuario}">
+        <fieldset>
+            <legend>Datos del Usuario</legend>
+            <label for="nombre">Nombre</label>
+            <input type="text" th:field="*{nombre}"/>
+            <br/>
+            <br/>
+            <label for="clave">Clave</label>
+            <input type="password" th:field="*{clave}"/>
+            <br/>
+            <br/>
+            <label for="confirmarClave">Confirmar clave</label>
+            <input type="password" th:field="*{confirmarClave}"/>
+            <br/>
+            <input type="submit" value="Enviar">
+        </fieldset>
+    </form>
+</body>
+</html>

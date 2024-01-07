@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Datos Personales</title>
+</head>
+<body>
+    <ul>
+        <li><a href="/cookiesSesion/datosUsuario">Paso 1</a></li>
+        <li><a href="/cookiesSesion/datosPersonales">Paso 2</a></li>
+        <li><a href="/cookiesSesion/datosProfesionales">Paso 3</a></li>
+        <li><a href="/cookiesSesion/finalDatos">Paso 4</a></li>
+    </ul>
+    <h1>Paso 2</h1>
+    <form th:action="entraDatosPersonales" method="post" th:object="${usuario}">
+        <fieldset>
+            <legend>Datos Personales</legend>
+            <label for="tratamientoDeseado">Tratamiento Deseado</label>
+            <select th:field="*{tratamientoDeseado}"/>
+                <option th:each="tratamiento : ${listaTratamiento}" th:value="${tratamiento.key}" th:text="${tratamiento.value}"/>
+            </select>
+            <br>
+            <br>
+            <label for="apellido">Apellido</label>
+            <input type="text" th:field="*{apellido}"/>
+            <br>
+            <br>
+            <label for="fechaNacimiento">Fecha Nacimiento</label>
+            <input type="text" th:field="*{fechaNacimiento}"/>
+            <br>
+            <br>
+            <label for="edad">Edad</label>
+            <input type="text" th:field="*{edad}"/>
+            <br>
+            <br>
+            <label for="genero">Género</label>
+            <select th:field="*{genero}"/>
+                <option th:each="genero : ${listaGenero}" th:value="${genero.key}" th:text="${genero.value}"/>
+            </select>
+            <br>
+            <br>
+            <label for="casado_pareja">Casado/Pareja</label>
+            <input type="checkbox" th:field="*{casado_pareja}"/>
+            <br>
+            <br>
+            <label for="hijos">Hijos</label>
+            <input type="checkbox" th:field="*{hijos}"/>
+            <br>
+            <br>
+            <label for="nacionalidades">Nacionalidad</label>
+            <select th:field="*{nacionalidades}" multiple/>
+                <option th:each="nacionalidad : ${listaNacionalidad}" th:value="${nacionalidad.key}" th:text="${nacionalidad.value}"/>
+            </select>
+            <br>
+            <input type="submit" value="Enviar"/>
+        </fieldset>
+    </form>
+</body>
+</html>

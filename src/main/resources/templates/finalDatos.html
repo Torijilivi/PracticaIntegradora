@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Final Formulario</title>
+</head>
+<body>
+    <ul>
+        <li><a href="/cookiesSesion/datosUsuario">Paso 1</a></li>
+        <li><a href="/cookiesSesion/datosPersonales">Paso 2</a></li>
+        <li><a href="/cookiesSesion/datosProfesionales">Paso 3</a></li>
+        <li><a href="/cookiesSesion/finalDatos">Paso 4</a></li>
+    </ul>
+    <h1>Paso 4</h1>
+    <p th:text="${usuario}"></p>
+    <form action="final" method="post" th:object="${usuario}">
+        <fieldset>
+            <legend>Datos del Usuario</legend>
+            <p><b>Nombre: </b><span th:text="*{nombre}"></span></p>
+            <br/>
+            <p><b>Clave: </b><span th:text="*{clave}"></span></b></p>
+            <br/>
+            <p><b>Confirmar Clave: </b><span th:text="*{confirmarClave}"></span></b></p>
+        </fieldset>
+        <fieldset>
+            <legend>Datos Personales</legend>
+            <p><b>Tratamiento deseado: </b><span th:text="*{tratamientoDeseado}"></span></b></p>
+            <br>
+            <p><b>Apellido: </b><span th:text="*{apellido}"></span></b></p>
+            <br>
+            <p><b>Fecha de Nacimiento: </b><span th:text="*{fechaNacimiento}"></span></b></p>
+            <br>
+            <p><b>Edad: </b><span th:text="*{edad}"></span></b></p>
+            <br>
+            <p><b>Género: </b><span th:text="*{genero}"></span></b></p>
+            <br>
+            <p><b>Casado/Pareja: </b><span th:text="*{casado_pareja}"></span></b></p>
+            <br>
+            <p><b>Hijos: </b><span th:text="*{hijos}"></span></b></p>
+            <br>
+            <p><b>Nacionalidad: </b><span th:each="nacionalidad : *{nacionalidades}" th:text="${nacionalidad}"></span></b></p>
+        </fieldset>
+        <fieldset>
+            <legend>Datos Profesionales</legend>
+            <p><b>Departamento: </b><span th:text="*{departamento}"></span></b></p>
+            <br>
+            <p><b>Salario: </b><span th:text="*{salario}"></span></b></p>
+            <br>
+            <p><b>Comentarios: </b><span th:text="*{comentarios}"></span></b></p>
+        </fieldset>
+    </form>
+</body>
+</html>
