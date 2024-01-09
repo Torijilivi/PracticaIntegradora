@@ -1,8 +1,12 @@
 package org.matorija.cookies.model;
 
-import java.util.Map;
+import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.Map;
 public class Colecciones {
+
+    public static ArrayList<Usuario> usuarios = new ArrayList<>();
     public static Map<String, String> getGeneros() {
         Map<String, String> generos = Map.of(
                 "H" , "Hombre", "M", "Mujer", "O", "Otro"
@@ -32,8 +36,29 @@ public class Colecciones {
         return departamentos;
     }
 
-//    public static boolean esValido(String usuario, String clave){
-//
-//        return usuarios_y_claves().containsKey(usuario) && clave.equals(usuarios_y_claves().get(usuario));
-//    }
+    public static void anadirUsuario(Usuario usuario){
+        usuarios.add(usuario);
+    }
+
+    public static boolean existeNombre(String nombre){
+        for (Usuario usuario : usuarios) {
+            if (usuario.getNombre().equals(nombre)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean existeClave(String nombre,String clave){
+        for (Usuario usuario : usuarios) {
+            if (usuario.getNombre().equals(nombre) && usuario.getClave().equals(clave)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static ArrayList<Usuario> getUsuarios(){
+        return usuarios;
+    }
 }

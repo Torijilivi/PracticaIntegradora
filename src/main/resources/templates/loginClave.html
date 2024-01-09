@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Clave</h1>
+    <form th:action="entraClave" method="post">
+        <fieldset>
+            <p>Nombre: [[${nombre}]]</p>
+            <label for="clave">Clave: </label>
+            <input type="password" name="clave">
+            <br>
+            <input type="submit" value="Login">
+        </fieldset>
+    </form>
+</body>
+</html>

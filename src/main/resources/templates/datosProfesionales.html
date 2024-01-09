@@ -9,7 +9,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Clave</title>
+    <title>Datos Profesionales</title>
+    <link rel="stylesheet" href="/css/styles.css"/>
 </head>
 <body>
     <ul>
@@ -30,12 +31,13 @@
             <br>
             <label for="salario">Salario</label>
             <input type="text" th:field="*{salario}"/>
+            <div th:errors="*{salario}" class="error"/>
             <br>
             <br>
             <label for="comentarios">Comentarios</label>
             <textarea th:field="*{comentarios}"/>
             <br>
-            <input type="submit" value="Enviar"/>
+            <input type="submit" value="Grabar información e ir al resumen final">
         </fieldset>
     </form>
 </body>

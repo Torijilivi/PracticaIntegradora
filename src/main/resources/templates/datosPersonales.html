@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Datos Personales</title>
+    <link rel="stylesheet" href="/css/styles.css"/>
 </head>
 <body>
     <ul>
@@ -27,10 +28,12 @@
             <br>
             <label for="fechaNacimiento">Fecha Nacimiento</label>
             <input type="text" th:field="*{fechaNacimiento}"/>
+            <div th:errors="*{fechaNacimiento}" class="error"/>
             <br>
             <br>
             <label for="edad">Edad</label>
             <input type="text" th:field="*{edad}"/>
+            <div th:errors="*{edad}" class="error"/>
             <br>
             <br>
             <label for="genero">Género</label>
@@ -51,8 +54,9 @@
             <select th:field="*{nacionalidades}" multiple/>
                 <option th:each="nacionalidad : ${listaNacionalidad}" th:value="${nacionalidad.key}" th:text="${nacionalidad.value}"/>
             </select>
+            <div th:errors="*{nacionalidades}" class="error"/>
             <br>
-            <input type="submit" value="Enviar"/>
+            <input type="submit" value="Grabar información e ir al paso 3 - Datos Profesionales">
         </fieldset>
     </form>
 </body>

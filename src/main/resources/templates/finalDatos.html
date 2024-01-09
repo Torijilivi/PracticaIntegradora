@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Final Formulario</title>
+    <title>Resumen Formulario</title>
+    <link rel="stylesheet" href="/css/styles.css"/>
 </head>
 <body>
     <ul>
@@ -12,15 +13,19 @@
         <li><a href="/cookiesSesion/finalDatos">Paso 4</a></li>
     </ul>
     <h1>Paso 4</h1>
+    <h2>Resumen Final</h2>
     <p th:text="${usuario}"></p>
-    <form action="final" method="post" th:object="${usuario}">
+    <form action="entraFinal" method="post" th:object="${usuario}">
         <fieldset>
             <legend>Datos del Usuario</legend>
             <p><b>Nombre: </b><span th:text="*{nombre}"></span></p>
+            <div th:errors="*{nombre}" class="error"/>
             <br/>
             <p><b>Clave: </b><span th:text="*{clave}"></span></b></p>
+            <div th:errors="*{clave}" class="error"/>
             <br/>
             <p><b>Confirmar Clave: </b><span th:text="*{confirmarClave}"></span></b></p>
+            <div th:errors="*{confirmarClave}" class="error"/>
         </fieldset>
         <fieldset>
             <legend>Datos Personales</legend>
@@ -29,6 +34,7 @@
             <p><b>Apellido: </b><span th:text="*{apellido}"></span></b></p>
             <br>
             <p><b>Fecha de Nacimiento: </b><span th:text="*{fechaNacimiento}"></span></b></p>
+            <div th:errors="*{fechaNacimiento}" class="error"/>
             <br>
             <p><b>Edad: </b><span th:text="*{edad}"></span></b></p>
             <br>
@@ -39,15 +45,18 @@
             <p><b>Hijos: </b><span th:text="*{hijos}"></span></b></p>
             <br>
             <p><b>Nacionalidad: </b><span th:each="nacionalidad : *{nacionalidades}" th:text="${nacionalidad}"></span></b></p>
+            <div th:errors="*{nacionalidades}" class="error"/>
         </fieldset>
         <fieldset>
             <legend>Datos Profesionales</legend>
             <p><b>Departamento: </b><span th:text="*{departamento}"></span></b></p>
             <br>
             <p><b>Salario: </b><span th:text="*{salario}"></span></b></p>
+            <div th:errors="*{salario}" class="error"/>
             <br>
             <p><b>Comentarios: </b><span th:text="*{comentarios}"></span></b></p>
         </fieldset>
+        <input type="submit" value="Crear Usuario">
     </form>
 </body>
 </html>
