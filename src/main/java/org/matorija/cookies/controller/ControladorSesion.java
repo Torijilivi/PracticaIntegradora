@@ -43,13 +43,15 @@ public class ControladorSesion {
         return getDepartamentos();
     }
 
+    //Vista del login con nombre @GetMapping
     @GetMapping("loginNombre")
     public static String loginNombre(Model model, HttpSession session){
-        session.invalidate();
-        model.addAttribute("usuarios",usuarios);
+//        session.removeAttribute("usuario");
+        model.addAttribute("usuarios",getUsuarios());
         return "loginUsuario";
     }
 
+    //Vista del login con nombre @PostMapping
     @PostMapping("entraNombre")
     public static String entraNombre(@RequestParam("nombre") String nombre, HttpSession session){
         if (existeNombre(nombre)){
@@ -59,12 +61,14 @@ public class ControladorSesion {
         return "redirect:/cookiesSesion/loginNombre";
     }
 
+    //Vista del login con clave @GetMapping
     @GetMapping("loginClave")
     public static String loginClave(Model model, HttpSession session){
         model.addAttribute("nombre", (Usuario) session.getAttribute("nombre"));
         return "loginClave";
     }
 
+    //Vista del login con clave @PostMapping
     @PostMapping("entraClave")
     public static String entraClave(@RequestParam("clave") String clave, HttpSession session){
         if (existeClave((String) session.getAttribute("nombre"),clave)){
@@ -73,7 +77,7 @@ public class ControladorSesion {
         return "redirect:/cookiesSesion/loginClave";
     }
 
-    //Vista del input de usuario.
+    //Vista del registro de datos usuario @GetMapping
     @GetMapping("datosUsuario")
     public static String datosUsuario(@ModelAttribute Usuario usuario, HttpSession session, Model model){
         if (session.getAttribute("usuario") != null) {
@@ -82,7 +86,7 @@ public class ControladorSesion {
             return "datosUsuario";
     }
 
-    //Comprueba si el usuario existe.
+    //Validación de datos de usuario @PostMapping
     @PostMapping("entraDatosUsuario")
     public static String entraDatosUsuario(@Validated(value = UsuarioErrores.class) @ModelAttribute Usuario usuario,
                                            BindingResult errores, HttpSession session, Model model){
@@ -93,7 +97,7 @@ public class ControladorSesion {
         return "redirect:/cookiesSesion/datosPersonales";
     }
 
-    //Vista del input de clave.
+    //Vista del registro de datos personales @GetMapping
     @GetMapping("datosPersonales")
     public static String datosPersonales(@ModelAttribute Usuario usuario,HttpSession session, Model model){
         if (session.getAttribute("usuario") != null) {
@@ -102,8 +106,7 @@ public class ControladorSesion {
         return "datosPersonales";
     }
 
-    //Comprueba si la clave es correcta.
-
+    //Validación de datos personales @PostMapping
     @PostMapping("entraDatosPersonales")
     public static String entraDatosPersonales(@Validated(value = PersonalesErrores.class) @ModelAttribute Usuario usuario, BindingResult errores, HttpSession session, Model model){
         if (errores.hasErrors()) {
@@ -122,7 +125,7 @@ public class ControladorSesion {
         return "redirect:/cookiesSesion/datosProfesionales";
     }
 
-    //Pasos intermedios hechos en un solo método.
+    //Vista del registro de datos profesales @GetMapping
     @GetMapping("datosProfesionales")
     public static String datosProfesionales(@ModelAttribute Usuario usuario, Model model, HttpSession session){
         if (session.getAttribute("usuario") != null) {
@@ -131,6 +134,7 @@ public class ControladorSesion {
         return "datosProfesionales";
     }
 
+    //Validación de datos personales @PostMapping
     @PostMapping("entraDatosProfesionales")
     public static String entraDatosProfesionales(@Validated(value = ProfesionalesErrores.class) @ModelAttribute Usuario usuario,
                                                  BindingResult errores, HttpSession session, Model model){
@@ -145,7 +149,7 @@ public class ControladorSesion {
         return "redirect:/cookiesSesion/finalDatos";
     }
 
-    //Pasos intermedios antes de loguearse al completo uno por uno.
+    //Vista del resumen final @GetMapping
     @GetMapping("finalDatos")
     public static String finalDatos(HttpSession session, Model model){
         if (session.getAttribute("usuario") == null) {
@@ -156,7 +160,7 @@ public class ControladorSesion {
         return "finalDatos";
     }
 
-
+    //Validación de todos los datos en el resumen @PostMapping
 
     @PostMapping("entraFinal")
     public static String entraFinal(HttpSession session, Model model){
@@ -168,22 +172,24 @@ public class ControladorSesion {
         Set<ConstraintViolation<Usuario>> violations = validator.validate(usuario, ResumenErrores.class);
         if (violations.isEmpty()) {
             anadirUsuario(usuario);
-            session.invalidate();
+            session.removeAttribute("usuario");
             return "redirect:/cookiesSesion/loginNombre";
         }
         model.addAttribute("usuario", usuario);
         for (ConstraintViolation<Usuario> violation : violations) {
             model.addAttribute(violation.getPropertyPath().toString(), violation.getMessage());
         }
-//        errores.addAllErrors((Errors) violations);
         return "finalDatos";
     }
+
+    //Vista final del usuario logueado @GetMapping
 
     @GetMapping("logueado")
     public static String logueado(){
         return "logueado";
     }
 
+    // Vuelta al login inicial @PostMapping
     @PostMapping("entraLogueado")
     public static String entraLogueado(){
         return "redirect:/cookiesSesion/loginNombre";

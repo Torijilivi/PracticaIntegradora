@@ -4,9 +4,12 @@ import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.Map;
+
+
 public class Colecciones {
 
-    public static ArrayList<Usuario> usuarios = new ArrayList<>();
+    @Getter
+    private static ArrayList<Usuario> usuarios = new ArrayList<>();
     public static Map<String, String> getGeneros() {
         Map<String, String> generos = Map.of(
                 "H" , "Hombre", "M", "Mujer", "O", "Otro"
@@ -58,7 +61,5 @@ public class Colecciones {
         return false;
     }
 
-    public static ArrayList<Usuario> getUsuarios(){
-        return usuarios;
-    }
+
 }

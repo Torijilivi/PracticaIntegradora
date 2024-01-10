@@ -2,7 +2,6 @@ package validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import org.matorija.cookies.model.Usuario;
 
 import static org.matorija.cookies.model.Colecciones.*;
 

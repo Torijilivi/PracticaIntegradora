@@ -2,7 +2,6 @@ package validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import org.matorija.cookies.model.Usuario;
 
 import java.time.LocalDate;
 import java.time.Period;
