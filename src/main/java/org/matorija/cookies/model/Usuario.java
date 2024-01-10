@@ -15,10 +15,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @ToString
 @CoincidenciaClaves(groups = UsuarioErrores.class)
-//@ExisteUsuario(groups = UsuarioErrores.class)
 public class Usuario {
     //DatosUsuario
     @NotBlank(groups = {UsuarioErrores.class, ResumenErrores.class})
+    @ExisteUsuario(groups = UsuarioErrores.class)
     private String nombre;
     @NotBlank(groups = {UsuarioErrores.class, ResumenErrores.class})
     private String clave;
@@ -31,6 +31,7 @@ public class Usuario {
     private String genero;
 
     @NotNull(groups = {PersonalesErrores.class, ResumenErrores.class})
+    @FechaMayorEdad(groups = PersonalesErrores.class)
     private LocalDate fechaNacimiento;
 
     private boolean casado_pareja;

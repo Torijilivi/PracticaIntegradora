@@ -8,11 +8,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = UsuarioValidador.class)
-@Target({ElementType.FIELD, ElementType.TYPE})
+@Constraint(validatedBy = FechaValidador.class)
+@Target({ElementType.TYPE, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ExisteUsuario {
-    String message() default "{ExisteUsuario.usuario.nombre}";
+public @interface FechaMayorEdad {
+    String message() default "{FechaMayorEdad.usuario.fechaNacimiento}";
 
     Class<?>[] groups() default {};
 
