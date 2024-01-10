@@ -15,6 +15,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @ToString
 @CoincidenciaClaves(groups = UsuarioErrores.class)
+//@ExisteUsuario(groups = UsuarioErrores.class)
 public class Usuario {
     //DatosUsuario
     @NotBlank(groups = {UsuarioErrores.class, ResumenErrores.class})

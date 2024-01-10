@@ -7,13 +7,14 @@
 </head>
 <body>
     <ul>
+        <li><a href="/cookiesSesion/loginNombre">Iniciar Sesión</a></li>
         <li><a href="/cookiesSesion/datosUsuario">Paso 1</a></li>
         <li><a href="/cookiesSesion/datosPersonales">Paso 2</a></li>
         <li><a href="/cookiesSesion/datosProfesionales">Paso 3</a></li>
         <li><a href="/cookiesSesion/finalDatos">Paso 4</a></li>
     </ul>
     <h1>Paso 1</h1>
-    <form action="entraDatosUsuario" method="post" th:object="${usuario}">
+    <form th:action="entraDatosUsuario" method="post" th:object="${usuario}">
         <fieldset>
             <legend>Datos del Usuario</legend>
             <label for="nombre">Nombre</label>

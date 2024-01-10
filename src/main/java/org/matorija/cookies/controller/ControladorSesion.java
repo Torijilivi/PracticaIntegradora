@@ -1,6 +1,9 @@
 package org.matorija.cookies.controller;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
 import org.matorija.cookies.model.Usuario;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +17,7 @@ import validation.UsuarioErrores;
 
 import static org.matorija.cookies.model.Colecciones.*;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 @RequestMapping("cookiesSesion")
@@ -40,7 +44,8 @@ public class ControladorSesion {
     }
 
     @GetMapping("loginNombre")
-    public static String loginNombre(Model model){
+    public static String loginNombre(Model model, HttpSession session){
+        session.invalidate();
         model.addAttribute("usuarios",getUsuarios());
         return "loginUsuario";
     }
@@ -127,7 +132,8 @@ public class ControladorSesion {
     }
 
     @PostMapping("entraDatosProfesionales")
-    public static String entraDatosProfesionales(@Validated(value = ProfesionalesErrores.class) @ModelAttribute Usuario usuario, BindingResult errores, HttpSession session, Model model){
+    public static String entraDatosProfesionales(@Validated(value = ProfesionalesErrores.class) @ModelAttribute Usuario usuario,
+                                                 BindingResult errores, HttpSession session, Model model){
         if (errores.hasErrors()) {
             return "datosProfesionales";
         }
@@ -150,16 +156,27 @@ public class ControladorSesion {
         return "finalDatos";
     }
 
+
+
     @PostMapping("entraFinal")
-    public static String entraFinal(@Validated(value = ResumenErrores.class) @ModelAttribute Usuario usuario,
-                                    BindingResult bindingResult, HttpSession session){
-//        usuario = (Usuario) session.getAttribute("usuario");
-        if (bindingResult.hasErrors()) {
-            return "finalDatos";
+    public static String entraFinal(HttpSession session, Model model){
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+        if (usuario == null){
+            usuario = new Usuario();
         }
-        anadirUsuario((Usuario) session.getAttribute("usuario"));
-        session.invalidate();
-        return "redirect:/cookiesSesion/loginNombre";
+        Set<ConstraintViolation<Usuario>> violations = validator.validate(usuario, ResumenErrores.class);
+        if (violations.isEmpty()) {
+            anadirUsuario(usuario);
+            session.invalidate();
+            return "redirect:/cookiesSesion/loginNombre";
+        }
+        model.addAttribute("usuario", usuario);
+        for (ConstraintViolation<Usuario> violation : violations) {
+            model.addAttribute(violation.getPropertyPath().toString(), violation.getMessage());
+        }
+//        errores.addAllErrors((Errors) violations);
+        return "finalDatos";
     }
 
     @GetMapping("logueado")
@@ -169,7 +186,7 @@ public class ControladorSesion {
 
     @PostMapping("entraLogueado")
     public static String entraLogueado(){
-        return "redirect:/cookiesSesion/login";
+        return "redirect:/cookiesSesion/loginNombre";
     }
 }
 
