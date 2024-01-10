@@ -9,13 +9,12 @@ import validation.*;
 
 import java.time.LocalDate;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
-@ToString
+@NoArgsConstructor
 @CoincidenciaClaves(groups = UsuarioErrores.class)
 public class Usuario {
+
     //DatosUsuario
     @NotBlank(groups = {UsuarioErrores.class, ResumenErrores.class})
     @ExisteUsuario(groups = UsuarioErrores.class)
@@ -48,7 +47,7 @@ public class Usuario {
 
     private int edad;
 
-    @Min(value = 1075, groups = {ProfesionalesErrores.class, ResumenErrores.class})
-    private int salario;
+    @Min(value = 1080, groups = {ProfesionalesErrores.class, ResumenErrores.class})
+    private float salario;
 
 }

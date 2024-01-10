@@ -46,7 +46,7 @@ public class ControladorSesion {
     @GetMapping("loginNombre")
     public static String loginNombre(Model model, HttpSession session){
         session.invalidate();
-        model.addAttribute("usuarios",getUsuarios());
+        model.addAttribute("usuarios",usuarios);
         return "loginUsuario";
     }
 
