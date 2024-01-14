@@ -26,6 +26,8 @@ import java.util.Set;
 @RequestMapping("cookiesSesion")
 public class ControladorSesion {
 
+    //Colecciones necesarias en las vistas
+
     @ModelAttribute("listaGenero")
     public static Map generos(){
         return getGeneros();
@@ -226,6 +228,7 @@ public class ControladorSesion {
         return "finalDatos";
     }
 
+    //Borrado de datos Resumen Registro
     @GetMapping("borrarDatos")
     public static String borrarDatos(HttpSession session){
         session.removeAttribute("usuario");
