@@ -52,6 +52,7 @@ public class ControladorSesion {
 //        model.addAttribute("usuarios",getUsuarios());
         session.removeAttribute("nombre");
         session.removeAttribute("clave");
+        session.removeAttribute("usuario");
         model.addAttribute("logueados", session.getAttributeNames());
         return "loginUsuario";
     }
