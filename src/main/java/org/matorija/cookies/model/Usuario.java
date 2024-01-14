@@ -49,5 +49,4 @@ public class Usuario {
 
     @Min(value = 1080, groups = {ProfesionalesErrores.class, ResumenErrores.class})
     private float salario;
-
 }

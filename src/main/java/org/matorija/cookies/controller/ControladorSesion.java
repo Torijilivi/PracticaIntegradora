@@ -1,5 +1,7 @@
 package org.matorija.cookies.controller;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -16,6 +18,7 @@ import validation.ResumenErrores;
 import validation.UsuarioErrores;
 
 import static org.matorija.cookies.model.Colecciones.*;
+
 import java.util.Map;
 import java.util.Set;
 
@@ -46,8 +49,10 @@ public class ControladorSesion {
     //Vista del login con nombre @GetMapping
     @GetMapping("loginNombre")
     public static String loginNombre(Model model, HttpSession session){
-//        session.removeAttribute("usuario");
-        model.addAttribute("usuarios",getUsuarios());
+//        model.addAttribute("usuarios",getUsuarios());
+        session.removeAttribute("nombre");
+        session.removeAttribute("clave");
+        model.addAttribute("logueados", session.getAttributeNames());
         return "loginUsuario";
     }
 
@@ -55,7 +60,7 @@ public class ControladorSesion {
     @PostMapping("entraNombre")
     public static String entraNombre(@RequestParam("nombre") String nombre, HttpSession session){
         if (existeNombre(nombre)){
-            session.setAttribute("usuario", nombre);
+            session.setAttribute("nombre", nombre);
             return "redirect:/cookiesSesion/loginClave";
         }
         return "redirect:/cookiesSesion/loginNombre";
@@ -64,7 +69,7 @@ public class ControladorSesion {
     //Vista del login con clave @GetMapping
     @GetMapping("loginClave")
     public static String loginClave(Model model, HttpSession session){
-        model.addAttribute("nombre", (Usuario) session.getAttribute("nombre"));
+        model.addAttribute("nombre", (String) session.getAttribute("nombre"));
         return "loginClave";
     }
 
@@ -72,10 +77,47 @@ public class ControladorSesion {
     @PostMapping("entraClave")
     public static String entraClave(@RequestParam("clave") String clave, HttpSession session){
         if (existeClave((String) session.getAttribute("nombre"),clave)){
+            session.setAttribute("clave", clave);
+
+            if (session.getAttribute("cookie") != null){
+                Cookie cookie = (Cookie) session.getAttribute("cookie");
+                if (cookie.getAttribute(session.getAttribute("nombre").toString()) == null){
+                    cookie.setAttribute(session.getAttribute("nombre").toString(), "1");
+                }else {
+                    cookie.setAttribute(session.getAttribute("nombre").toString(), (Integer.parseInt(cookie.getAttribute(session.getAttribute("nombre").toString())) + 1) + "");
+                }
+                session.setAttribute("cookie", cookie);
+            }
+
             return "redirect:/cookiesSesion/logueado";
         }
         return "redirect:/cookiesSesion/loginClave";
     }
+
+    //Vista final del usuario logueado @GetMapping
+
+    @GetMapping("logueado")
+    public static String logueado(Model model, HttpSession session, HttpServletResponse response){
+        //Añadimos una cookie por cada usuario logueado
+        if (session.getAttribute((String) session.getAttribute("nombre")) == null){
+            Cookie cookie = new Cookie((String) session.getAttribute("nombre"), "1");
+            session.setAttribute((String) session.getAttribute("nombre"), "1");
+            //La cookie dura un día y después se borra.
+            cookie.setMaxAge(60*60*24);
+            response.addCookie(cookie);
+        }else {
+            Cookie cookie = new Cookie((String) session.getAttribute("nombre"), (Integer.parseInt((String) session.getAttribute((String) session.getAttribute("nombre"))) + 1) + "");
+            session.setAttribute((String) session.getAttribute("nombre"), (Integer.parseInt((String) session.getAttribute((String) session.getAttribute("nombre"))) + 1) + "");
+            response.addCookie(cookie);
+        }
+        model.addAttribute("logins",session.getAttribute((String) session.getAttribute("nombre")));
+        model.addAttribute("nombre",(String) session.getAttribute("nombre"));
+        model.addAttribute("clave",(String) session.getAttribute("clave"));
+        session.removeAttribute("nombre");
+        session.removeAttribute("clave");
+        return "logueado";
+    }
+
 
     //Vista del registro de datos usuario @GetMapping
     @GetMapping("datosUsuario")
@@ -108,7 +150,8 @@ public class ControladorSesion {
 
     //Validación de datos personales @PostMapping
     @PostMapping("entraDatosPersonales")
-    public static String entraDatosPersonales(@Validated(value = PersonalesErrores.class) @ModelAttribute Usuario usuario, BindingResult errores, HttpSession session, Model model){
+    public static String entraDatosPersonales(@Validated(value = PersonalesErrores.class) @ModelAttribute Usuario usuario,
+                                              BindingResult errores, HttpSession session){
         if (errores.hasErrors()) {
             return "datosPersonales";
         }
@@ -137,7 +180,7 @@ public class ControladorSesion {
     //Validación de datos personales @PostMapping
     @PostMapping("entraDatosProfesionales")
     public static String entraDatosProfesionales(@Validated(value = ProfesionalesErrores.class) @ModelAttribute Usuario usuario,
-                                                 BindingResult errores, HttpSession session, Model model){
+                                                 BindingResult errores, HttpSession session){
         if (errores.hasErrors()) {
             return "datosProfesionales";
         }
@@ -182,17 +225,10 @@ public class ControladorSesion {
         return "finalDatos";
     }
 
-    //Vista final del usuario logueado @GetMapping
-
-    @GetMapping("logueado")
-    public static String logueado(){
-        return "logueado";
-    }
-
-    // Vuelta al login inicial @PostMapping
-    @PostMapping("entraLogueado")
-    public static String entraLogueado(){
-        return "redirect:/cookiesSesion/loginNombre";
+    @GetMapping("borrarDatos")
+    public static String borrarDatos(HttpSession session){
+        session.removeAttribute("usuario");
+        return "redirect:/cookiesSesion/datosUsuario";
     }
 }
 

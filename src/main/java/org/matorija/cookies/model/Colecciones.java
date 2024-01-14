@@ -44,7 +44,7 @@ public class Colecciones {
     }
 
     public static boolean existeNombre(String nombre){
-        for (Usuario usuario : usuarios) {
+        for (Usuario usuario : getUsuarios()) {
             if (usuario.getNombre().equals(nombre)) {
                 return true;
             }
@@ -53,7 +53,7 @@ public class Colecciones {
     }
 
     public static boolean existeClave(String nombre,String clave){
-        for (Usuario usuario : usuarios) {
+        for (Usuario usuario : getUsuarios()) {
             if (usuario.getNombre().equals(nombre) && usuario.getClave().equals(clave)) {
                 return true;
             }

@@ -7,14 +7,18 @@
 <body>
     <h1>Nombre</h1>
     <form th:action="entraNombre" method="post">
-        <div th:text="${usuarios}"/>
+<!--        <div th:text="${usuarios}"/>-->
         <fieldset>
             <label for="nombre">Nombre: </label>
-            <input type="text" name="nombre">
+            <input type="text" name="nombre" id="nombre">
             <br>
+            <select name="logueados" id="logueados">
+                <option th:each="logueado : ${logueados}" th:value="${logueado}" th:text="${logueado}"/>
+            </select>
         </fieldset>
             <input type="submit" value="Login">
     </form>
     <button onclick="location.href='/cookiesSesion/datosUsuario'">Registarse</button>
+    <script src="/js/script.js"></script>
 </body>
 </html>
