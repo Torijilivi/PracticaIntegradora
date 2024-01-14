@@ -2,6 +2,7 @@ package org.matorija.cookies.model;
 
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -9,7 +10,9 @@ import java.util.Map;
 public class Colecciones {
 
     @Getter
-    private static ArrayList<Usuario> usuarios = new ArrayList<>();
+    private static ArrayList<Usuario> usuarios = new ArrayList<>(){{
+        add(new Usuario("admin", "1234", "1234", "Sr", "nistrador", "M", LocalDate.of(2000, 1, 1), false, false, new String[]{"E","P"}, "S", "Ninguno", 18,1800));
+    }};
     public static Map<String, String> getGeneros() {
         Map<String, String> generos = Map.of(
                 "H" , "Hombre", "M", "Mujer", "O", "Otro"
