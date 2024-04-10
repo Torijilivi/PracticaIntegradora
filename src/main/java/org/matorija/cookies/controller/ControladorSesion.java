@@ -51,7 +51,6 @@ public class ControladorSesion {
     //Vista del login con nombre @GetMapping
     @GetMapping("loginNombre")
     public static String loginNombre(Model model, HttpSession session){
-//        model.addAttribute("usuarios",getUsuarios());
         session.removeAttribute("nombre");
         session.removeAttribute("clave");
         session.removeAttribute("usuario");
@@ -82,15 +81,16 @@ public class ControladorSesion {
         if (existeClave((String) session.getAttribute("nombre"),clave)){
             session.setAttribute("clave", clave);
 
-            if (session.getAttribute("cookie") != null){
-                Cookie cookie = (Cookie) session.getAttribute("cookie");
-                if (cookie.getAttribute(session.getAttribute("nombre").toString()) == null){
-                    cookie.setAttribute(session.getAttribute("nombre").toString(), "1");
-                }else {
-                    cookie.setAttribute(session.getAttribute("nombre").toString(), (Integer.parseInt(cookie.getAttribute(session.getAttribute("nombre").toString())) + 1) + "");
-                }
-                session.setAttribute("cookie", cookie);
-            }
+//            if (session.getAttribute("cookie") != null){
+//                Cookie cookie = (Cookie) session.getAttribute("cookie");
+//                if (cookie.getAttribute(session.getAttribute("nombre").toString()) == null){
+//                    cookie.setAttribute(session.getAttribute("nombre").toString(), "1");
+//                }else {
+//                    cookie.setAttribute(session.getAttribute("nombre").toString(),
+//                                        (Integer.parseInt(cookie.getAttribute(session.getAttribute("nombre").toString())) + 1) + "");
+//                }
+//                session.setAttribute("cookie", cookie);
+//            }
 
             return "redirect:/cookiesSesion/logueado";
         }
